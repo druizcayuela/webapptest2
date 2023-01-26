@@ -63,5 +63,10 @@
             var other = (PersonDTO) obj;
             return Name == other.Name && PhoneNumber == other.PhoneNumber && Address == other.Address;
         }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + PhoneNumber.GetHashCode() + Address.GetHashCode();
+        }
     }
 }

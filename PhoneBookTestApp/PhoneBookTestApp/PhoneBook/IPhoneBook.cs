@@ -4,11 +4,8 @@ namespace PhoneBookTestApp
 {
     public interface IPhoneBook
     {
-        PersonDTO findPerson(string name);
+        PersonDTO findPerson(string firstName, string lastName);
         void addPerson(PersonDTO newPerson);
-        
-        void addPeople(List<PersonDTO> newPeople);
-        
-        List<PersonDTO> findAll();
+       
     }
 }

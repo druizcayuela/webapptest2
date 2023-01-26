@@ -1,41 +1,53 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace PhoneBookTestApp
 {
-    public class PhoneBook : IPhoneBook
+    public class PhoneBook : IPhoneBook, IEnumerable<PersonDTO>
     {
-        private IPhoneBookRepository repository;
-        
-        public PhoneBook(IPhoneBookRepository repository)
+        private Dictionary<string, PersonDTO> people = new Dictionary<string, PersonDTO>();
+
+        public PersonDTO findPerson(string firstName, string lastName)
         {
-            this.repository = repository;
-        }
-        public PersonDTO findPerson(string name)
-        {
-            var person = repository.findPerson(name);
-            
-            if (person == null)
+            if (string.IsNullOrEmpty(firstName))
             {
-                throw new PersonNotFoundException();
+                throw new ArgumentNullException(nameof(firstName));
             }
-            
-            return person;
+
+            if (string.IsNullOrEmpty(lastName))
+            {
+                throw new ArgumentNullException(nameof(lastName));
+            }
+
+            string name = $"{firstName} {lastName}";
+
+            return people.ContainsKey(name) ? people[name] : throw new PersonNotFoundException();
         }
 
         public void addPerson(PersonDTO newPerson)
         {
-            repository.addPerson(newPerson);
+            if (newPerson == null)
+            {
+                throw new ArgumentNullException(nameof(newPerson));
+            }
+
+            if (people.ContainsKey(newPerson.PhoneNumber))
+            {
+                throw new ArgumentException("A person with this phone number already exists in the phone book.");
+            }
+
+            people.Add(newPerson.Name, newPerson);
         }
-        
-        public List<PersonDTO> findAll()
+
+        public IEnumerator<PersonDTO> GetEnumerator()
         {
-            return repository.findAll();
+            foreach (var person in people)
+            {
+                yield return person.Value;
+            }
         }
-        
-        public void addPeople(List<PersonDTO> newPeople)
-        {
-            repository.addPeople(newPeople);
-        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
