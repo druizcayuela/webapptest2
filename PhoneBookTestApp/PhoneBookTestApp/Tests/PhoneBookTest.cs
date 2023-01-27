@@ -1,10 +1,7 @@
-﻿using Moq;
-using NUnit.Framework;
-using PhoneBookTestApp;
+﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
-namespace PhoneBookTestAppTests
+namespace PhoneBookTestApp
 {
     [TestFixture]
     public class PhoneBookTest
