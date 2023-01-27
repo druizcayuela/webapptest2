@@ -32,9 +32,9 @@ namespace PhoneBookTestApp
                 throw new ArgumentNullException(nameof(newPerson));
             }
 
-            if (people.ContainsKey(newPerson.PhoneNumber))
+            if (people.ContainsKey(newPerson.Name))
             {
-                throw new ArgumentException("A person with this phone number already exists in the phone book.");
+                throw new ArgumentException("A person with this name already exists in the phone book.");
             }
 
             people.Add(newPerson.Name, newPerson);
